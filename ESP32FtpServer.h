@@ -1,9 +1,9 @@
 
 /*
-*  FTP SERVER FOR ESP8266
+*  FTP SERVER FOR ESP32
  * based on FTP Serveur for Arduino Due and Ethernet shield (W5100) or WIZ820io (W5200)
  * based on Jean-Michel Gallego's work
- * modified to work with esp8266 SPIFFS by David Paiva (david@nailbuster.com)
+ * modified to work with ESP32 SD_MMC by Peter Noël Muller pm563838@gmail.com
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,14 +28,15 @@
 // Uncomment to print debugging info to console attached to ESP8266
 //#define FTP_DEBUG
 
-#ifndef FTP_SERVERESP_H
-#define FTP_SERVERESP_H
+#ifndef ESP32FTP_SERVERESP_H
+#define ESP32FTP_SERVERESP_H
 
 //#include "Streaming.h"
 #include <FS.h>
 #include <WiFiClient.h>
+#include "SD_MMC.h"
 
-#define FTP_SERVER_VERSION "FTP-2017-10-18"
+#define FTP_SERVER_VERSION "FTP-2025-01-09"
 
 #define FTP_CTRL_PORT    21          // Command port on wich server is listening  
 #define FTP_DATA_PORT_PASV 50009     // Data port in passive mode
@@ -45,7 +46,7 @@
 #define FTP_CWD_SIZE 255 + 8 // max size of a directory name
 #define FTP_FIL_SIZE 255     // max size of a file name
 //#define FTP_BUF_SIZE 1024 //512   // size of file buffer for read/write
-#define FTP_BUF_SIZE 2*1460 //512   // size of file buffer for read/write
+#define FTP_BUF_SIZE 4096 //512   //  700 KByte/s download in AP mode, direct connection.
 
 class FtpServer
 {
@@ -102,5 +103,3 @@ private:
 };
 
 #endif // FTP_SERVERESP_H
-
-
